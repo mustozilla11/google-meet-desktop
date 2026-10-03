@@ -31,7 +31,7 @@ fn main() {
                     let wk_webview = webview.inner();
                     if let Some(settings) = wk_webview.settings() {
                         settings.set_user_agent(Some(
-                            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+                            "Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0",
                         ));
                         settings.set_enable_webrtc(true);
                         settings.set_enable_media_stream(true);
@@ -102,7 +102,7 @@ fn main() {
             // Sistem tepsisini oluştur
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon_image)
-                .tooltip("Google Meet v0.1.5")
+                .tooltip("Google Meet v0.1.6")
                 .menu(&tray_menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(move |app, event| {
