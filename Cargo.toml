@@ -1,0 +1,23 @@
+[package]
+name = "google-meet-desktop"
+version = "0.1.0"
+description = "Modern ve hafif Google Meet masaüstü istemcisi"
+authors = ["Mustafa <mustafa@local>"]
+edition = "2021"
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+webkit2gtk = { version = "2.0.2", features = ["v2_40"] }
+gtk = "0.18"
+glib = "0.18"
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

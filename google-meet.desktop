@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Google Meet
+Comment=Modern ve hafif Google Meet masaüstü istemcisi
+Exec=/home/mustafao/.local/bin/google-meet
+Icon=google-meet
+Terminal=false
+Type=Application
+Categories=Network;AudioVideo;VideoConference;
+StartupNotify=true
+StartupWMClass=google-meet-desktop
+Keywords=meet;google;video;call;conference;toplantı;
