@@ -55,6 +55,9 @@ fn main() {
                             }
                         }
                     });
+
+                    // Ayarlar (WebRTC, kimlik) hazır olduktan SONRA Meet'i aç; yoksa ilk sayfada RTCPeerConnection tanımsız kalır
+                    wk_webview.load_uri("https://meet.google.com/");
                 });
             }
 
@@ -99,7 +102,7 @@ fn main() {
             // Sistem tepsisini oluştur
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon_image)
-                .tooltip("Google Meet v0.1.4")
+                .tooltip("Google Meet v0.1.5")
                 .menu(&tray_menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(move |app, event| {
