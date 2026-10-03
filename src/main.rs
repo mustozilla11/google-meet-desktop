@@ -9,14 +9,13 @@ use tauri::{
 
 #[cfg(target_os = "linux")]
 use webkit2gtk::{
-    LoadEvent, PermissionRequestExt, SettingsExt, UserContentInjectedFrames,
-    UserContentManagerExt, UserScript, UserScriptInjectionTime, WebViewExt,
+    LoadEvent, PermissionRequestExt, SettingsExt, WebViewExt,
 };
 
 fn main() {
     // 1. Arka plan sesinin ve medya oynatımının pencere gizlendiğinde kesilmesini önle
     std::env::set_var("WEBKIT_DISABLE_BACKGROUND_TAB_THROTTLING", "1");
-    std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "0");
+    std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
 
     tauri::Builder::default()
         .setup(|app| {
@@ -32,31 +31,12 @@ fn main() {
                     let wk_webview = webview.inner();
                     if let Some(settings) = wk_webview.settings() {
                         settings.set_user_agent(Some(
-                            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+                            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
                         ));
                         settings.set_enable_webrtc(true);
                         settings.set_enable_media_stream(true);
                         settings.set_enable_mediasource(true);
                         settings.set_enable_developer_extras(true);
-                    }
-
-                    // Google OAuth ve Webview engellerini aşmak için başlangıç UserScript'i
-                    if let Some(content_manager) = wk_webview.user_content_manager() {
-                        let script = UserScript::new(
-                            r#"
-                            try {
-                                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-                                if (!window.chrome) {
-                                    window.chrome = { runtime: {} };
-                                }
-                            } catch(e) {}
-                            "#,
-                            UserContentInjectedFrames::AllFrames,
-                            UserScriptInjectionTime::Start,
-                            &[],
-                            &[],
-                        );
-                        content_manager.add_script(&script);
                     }
 
                     // Kamera, mikrofon ve ekran paylaşımı isteklerine izin ver
@@ -119,7 +99,7 @@ fn main() {
             // Sistem tepsisini oluştur
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon_image)
-                .tooltip("Google Meet v0.1.3")
+                .tooltip("Google Meet v0.1.4")
                 .menu(&tray_menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(move |app, event| {
