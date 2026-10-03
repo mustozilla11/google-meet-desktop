@@ -1,6 +1,6 @@
 [package]
 name = "google-meet-desktop"
-version = "0.1.1"
+version = "0.1.2"
 description = "Modern ve hafif Google Meet masaüstü istemcisi"
 authors = ["Mustafa <mustafa@local>"]
 edition = "2021"
