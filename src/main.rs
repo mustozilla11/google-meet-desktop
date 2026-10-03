@@ -70,7 +70,7 @@ fn main() {
                         if event == LoadEvent::Committed {
                             if let Some(uri) = v.uri() {
                                 if uri.contains("workspace.google.com") || uri.ends_with("/about") {
-                                    v.load_uri("https://meet.google.com/landing");
+                                    v.load_uri("https://accounts.google.com/ServiceLogin?service=mail&continue=https://meet.google.com/");
                                 }
                             }
                         }
@@ -119,7 +119,7 @@ fn main() {
             // Sistem tepsisini oluştur
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon_image)
-                .tooltip("Google Meet v0.1.2")
+                .tooltip("Google Meet v0.1.3")
                 .menu(&tray_menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(move |app, event| {
@@ -138,7 +138,7 @@ fn main() {
                             if let Some(win) = app.get_webview_window("main") {
                                 let _ = win.show();
                                 let _ = win.set_focus();
-                                let _ = win.eval("window.location.href = 'https://meet.google.com/landing';");
+                                let _ = win.eval("window.location.href = 'https://meet.google.com/';");
                             }
                         }
                         "new_meet" => {
@@ -152,7 +152,7 @@ fn main() {
                             if let Some(win) = app.get_webview_window("main") {
                                 let _ = win.show();
                                 let _ = win.set_focus();
-                                let _ = win.eval("window.location.href = 'https://accounts.google.com/ServiceLogin?continue=https://meet.google.com/landing';");
+                                let _ = win.eval("window.location.href = 'https://accounts.google.com/ServiceLogin?continue=https://meet.google.com/';");
                             }
                         }
                         "reload" => {
