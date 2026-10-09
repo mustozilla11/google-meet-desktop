@@ -1,45 +1,61 @@
-# Google Meet Masaüstü İstemcisi (v0.1.0)
+# Google Meet Desktop 🚀
 
-CachyOS (Arch Linux) için Rust ve Tauri v2 kullanılarak geliştirilmiş, ultra hafif ve modern Google Meet masaüstü istemcisi.
+CachyOS (Arch Linux) ve diğer Linux dağıtımları için Rust ve Tauri v2 mimarisiyle geliştirilmiş, ultra hafif, modern ve performanslı Google Meet masaüstü istemcisidir.
 
-## 🚀 Temel Özellikler
-
-1. **User-Agent Spoofing (Tarayıcı Kimliği)**:
-   - WebKitGTK motoru güncel bir Linux Chrome (`Chrome/131.0.0.0`) olarak tanıtılmıştır. Böylece Google Meet'in "desteklenmeyen tarayıcı" engeli tamamen aşılmıştır.
-2. **Kamera, Mikrofon ve Ekran Paylaşımı (WebRTC & PipeWire)**:
-   - WebKitGTK donanım izinleri otomatik olarak karşılanır; Linux PipeWire ve xdg-desktop-portal üzerinden ekran ve kamera paylaşımı sorunsuz çalışır.
-   - Oturumlar ve Google hesabı kalıcı çerez/veri dizini (`~/.local/share/com.google.meet.desktop`) sayesinde açık kalır.
-3. **Pencere ve Sistem Tepsisi (Tray Icon)**:
-   - 1280x800 ebatlarında, ekran ortasında açılır ve yeniden boyutlandırılabilir.
-   - 'X' kapatma butonuna tıklandığında toplantı kesilmez; pencere arka plana gizlenir.
-   - Sistem tepsisinde "Toplantıyı Aç / Gizle" ve "Çıkış" seçenekleri bulunur. Tepsi ikonuna sol tıklayarak da pencere açılıp gizlenebilir.
-   - Sadece tepsiden "Çıkış" seçildiğinde uygulama tamamen sonlandırılır.
-4. **Arka Plan Ses Oynatımı**:
-   - `WEBKIT_DISABLE_BACKGROUND_TAB_THROTTLING=1` ortam değişkeniyle pencere simge durumuna küçültüldüğünde veya gizlendiğinde ses akışı asla dondurulmaz.
+Tarayıcı sekmeleri arasında kaybolmadan, doğrudan sistem tepsisi (tray) üzerinden yönetilebilen, düşük kaynak tüketimli bağımsız bir Google Meet deneyimi sunar.
 
 ---
 
-## 🛠️ Kurulum ve Çalıştırma
+## ✨ Öne Çıkan Özellikler
+
+- **Bağımsız ve Hafif:** Chrome veya Electron gibi ağır tarayıcı motorları yerine işletim sisteminin yerleşik WebKitGTK motorunu ve Rust'ı kullanır. Sadece birkaç megabayt bellek harcar!
+- **Sistem Tepsisi (Tray) Entegrasyonu:** Uygulama penceresini kapatsanız dahi kapanmaz, sistem tepsisinde arka planda çalışmaya devam eder. Toplantılarınız ve sesiniz asla kesilmez!
+- **Gelişmiş Tarayıcı Kimliği (Spoofing):** WebKitGTK motoru üzerinden Google'a Firefox/Chrome gibi modern tarayıcı kimlikleriyle bağlanır. "Desteklenmeyen Tarayıcı" hatasını tamamen ortadan kaldırır.
+- **Kesintisiz Medya Oynatımı:** Arka plana alındığında veya simge durumuna küçültüldüğünde WebKit'in arka plan uyutma modunu (throttling) devre dışı bırakır. Böylece toplantı sesi ve mikrofonunuz daima aktif kalır.
+- **Kusursuz İzin Yönetimi:** Mikrofon, kamera ve PipeWire (Wayland) üzerinden ekran paylaşımı izinleri otomatik ve güvenli bir şekilde WebKit ayarlarına bağlanmıştır.
+
+## 🛠️ Sistem Gereksinimleri
+
+- Linux işletim sistemi (Arch Linux, CachyOS vb. önerilir)
+- `webkit2gtk-4.1` (WebKitGTK kütüphanesi)
+- Rust (derleme için)
+
+## 📦 Kurulum ve Çalıştırma
 
 ### 1. Doğrudan Çalıştırma
-Sistem entegrasyonu tamamlandığı için uygulamayı iki şekilde çalıştırabilirsiniz:
-- **Terminalden**:
-  ```bash
-  google-meet
-  ```
-- **Uygulama Menüsünden**:
-  KDE veya GNOME başlat menüsünde **Google Meet** adıyla aratarak açabilirsiniz.
+Uygulamayı çalıştırılabilir dosya olarak sisteminize entegre edebilirsiniz:
+```bash
+google-meet
+```
+Ayrıca, KDE veya GNOME uygulama menünüzde "Google Meet" adıyla aratarak başlatabilirsiniz.
 
 ### 2. Kaynak Koddan Yeniden Derleme
-Gelecekte kodda bir değişiklik yaparsanız optimize release sürümünü derlemek için:
+Kendi sisteminizde en yüksek optimizasyonla (release profile) derlemek isterseniz:
 ```bash
-cd /home/mustafao/.gemini/antigravity/scratch/google-meet-desktop
+git clone https://github.com/mustozilla11/google-meet-desktop.git
+cd google-meet-desktop
 cargo build --release
 ```
-`~/.local/bin/google-meet` sembolik bağı otomatik olarak derlenen en güncel dosyaya bağlı kalacaktır.
+Derlenen ikili dosya `target/release/google-meet-desktop` yolunda olacaktır.
 
 ---
 
-## 📦 Sürüm ve Lisans
-- **Sürüm**: v0.1.0 (SemVer)
-- **Paket Boyutu**: Sadece ~4.7 MB!
+## tray Menüsü
+
+Sistem tepsisinde yer alan Google Meet ikonuna tıklayarak şu hızlı işlemlere erişebilirsiniz:
+- **Toplantıyı Aç / Gizle:** Ana pencereyi görünür kılar veya arka plana gönderir.
+- **Arama Yap ya da Katıl:** Doğrudan toplantı arama ve oluşturma sayfasına atlar.
+- **Yeni Toplantı Başlat:** `meet.new` kısayoluyla anında yeni bir toplantı başlatır.
+- **Oturum Aç:** Google hesabınızla giriş yapma sayfasına yönlendirir.
+- **Çıkış:** Uygulamayı tamamen kapatır.
+
+## 📝 Sürüm Geçmişi
+
+- **v0.1.6:** WebRTC (Görüntülü Görüşme) API uyumluluğu için User-Agent yapısı güncellendi.
+- **v0.1.5:** WebRTC ayarlarının (RTCPeerConnection) sayfa yüklenmeden önce başlatılması düzeltildi.
+- **v0.1.4:** Boş ekran hatalarına karşı WebKit ayarları ve DMABUF renderer devredışı bırakıldı.
+- **v0.1.3:** Ana ekran yönlendirme hataları (`404 Not Found`) giderildi.
+- **v0.1.0:** İlk stabil sürüm yayınlandı. (Tauri v2 + WebKitGTK)
+
+---
+*Rust ve Tauri ile sevgiyle geliştirilmiştir. 🦀*
